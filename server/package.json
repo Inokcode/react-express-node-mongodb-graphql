@@ -5,6 +5,9 @@
   "type": "module",
   "author": "Inokcode",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
   "dependencies": {
     "apollo-server-express": "^3.4.0",
     "express": "^4.17.1",
