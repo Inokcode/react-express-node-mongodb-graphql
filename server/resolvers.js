@@ -23,6 +23,10 @@ const resolvers = {
       await newTodo.save();
       return newTodo;
     },
+    deleteTodo: async (root, args) => {
+      await Todo.findByIdAndDelete(args.id);
+      return 'The todo deleted successfully';
+    },
   },
 };
 
