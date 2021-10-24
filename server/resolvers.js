@@ -8,12 +8,16 @@ const resolvers = {
       const todos = await Todo.find();
       return todos;
     },
+    getTodo: async (root, args) => {
+      const todo = await Todo.findById(args.id);
+      return todo;
+    },
   },
   Mutation: {
     addTodo: async (root, args) => {
       const newTodo = new Todo({
         title: args.title,
-        detail: args.detail,
+        details: args.details,
         date: args.date,
       });
       await newTodo.save();
