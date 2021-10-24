@@ -27,6 +27,21 @@ const resolvers = {
       await Todo.findByIdAndDelete(args.id);
       return 'The todo deleted successfully';
     },
+    updateTodo: async (root, args) => {
+      const { id, title, details, date } = args;
+      const updateTodo = {};
+      if (title != undefined) {
+        updateTodo.title = title;
+      }
+      if (details != undefined) {
+        updateTodo.details = details;
+      }
+      if (date != undefined) {
+        updateTodo.date = date;
+      }
+      const todo = await Todo.findByIdAndUpdate(id, updateTodo, { new: true });
+      return todo;
+    },
   },
 };
 
