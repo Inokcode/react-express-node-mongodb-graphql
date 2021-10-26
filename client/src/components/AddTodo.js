@@ -24,9 +24,9 @@ const AddTodo = () => {
   //
   return (
     <form onSubmit={onSubmit}>
-      <div className="form-group">
+      <div className="mb-3">
         <pre>{JSON.stringify(todo, null, '\t')}</pre>
-        <label>Title</label>
+        <label className="form-label">Title</label>
         <input
           type="text"
           className="form-control"
@@ -35,8 +35,8 @@ const AddTodo = () => {
           onChange={(e) => setTodo({ ...todo, title: e.target.value })}
         />
       </div>
-      <div className="form-group">
-        <label>Detail</label>
+      <div className="mb-3">
+        <label className="form-label">Detail</label>
         <input
           type="text"
           className="form-control"
@@ -45,8 +45,8 @@ const AddTodo = () => {
           onChange={(e) => setTodo({ ...todo, details: e.target.value })}
         />
       </div>
-      <div className="form-group">
-        <label>Date</label>
+      <div className="mb-3">
+        <label className="form-label">Date</label>
         <input
           type="date"
           className="form-control"
@@ -54,10 +54,12 @@ const AddTodo = () => {
           onChange={(e) => setTodo({ ...todo, date: e.target.value })}
         />
       </div>
-
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
+      <div className="mb-3">
+        {' '}
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </div>
     </form>
   );
 };

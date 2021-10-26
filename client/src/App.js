@@ -19,6 +19,7 @@ function App() {
         {data?.getTodos.map((todo) => (
           <Todo
             key={todo.id}
+            id={todo.id}
             title={todo.title}
             details={todo.details}
             date={todo.date}
