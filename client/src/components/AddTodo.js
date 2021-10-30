@@ -1,10 +1,12 @@
 import { useMutation } from '@apollo/client';
 import moment from 'moment';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ADD_TODO } from '../graphql/Mutation';
 import { GET_TODOS } from '../graphql/Query';
+import { TodoContext } from '../TodoContext';
 
 const AddTodo = () => {
+  const { selectedId, setSelectedId } = useContext(TodoContext);
   //
   const inputAreaRef = useRef();
   useEffect(() => {
@@ -12,6 +14,7 @@ const AddTodo = () => {
     const checkIfClickedOutside = (e) => {
       if (!inputAreaRef.current.contains(e.target)) {
         console.log('Outside input area');
+        setSelectedId(0);
       } else {
         console.log('Inside input area');
       }
@@ -42,7 +45,7 @@ const AddTodo = () => {
     <form onSubmit={onSubmit} ref={inputAreaRef}>
       <div className="mb-3">
         <pre>{JSON.stringify(todo, null, '\t')}</pre>
-        <label className="form-label">Title</label>
+        <label className="form-label">Title {selectedId}</label>
         <input
           type="text"
           className="form-control"
@@ -71,9 +74,8 @@ const AddTodo = () => {
         />
       </div>
       <div className="mb-3">
-        {' '}
         <button type="submit" className="btn btn-primary">
-          Submit
+          {selectedId === 0 ? 'Add' : 'Update'}
         </button>
       </div>
     </form>
