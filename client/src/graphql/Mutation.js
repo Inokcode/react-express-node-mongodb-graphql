@@ -15,3 +15,14 @@ export const DELETE_TODO = gql`
     deleteTodo(id: $id)
   }
 `;
+
+export const UPDATE_TODO = gql`
+  mutation updateTodo($id: ID, $title: String, $details: String, $date: Date) {
+    updateTodo(id: $id, title: $title, details: $details, date: $date) {
+      id
+      title
+      details
+      date
+    }
+  }
+`;

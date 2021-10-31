@@ -1,12 +1,28 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import moment from 'moment';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { ADD_TODO } from '../graphql/Mutation';
-import { GET_TODOS } from '../graphql/Query';
+import { ADD_TODO, UPDATE_TODO } from '../graphql/Mutation';
+import { GET_TODO, GET_TODOS } from '../graphql/Query';
 import { TodoContext } from '../TodoContext';
 
 const AddTodo = () => {
+  //
+
+  const [todo, setTodo] = useState({
+    title: '',
+    details: '',
+    date: '',
+  });
+  //
   const { selectedId, setSelectedId } = useContext(TodoContext);
+  const [updateTodo] = useMutation(UPDATE_TODO);
+  //
+  const { loading, error, data } = useQuery(GET_TODO, {
+    variables: { id: selectedId },
+    onCompleted: (data) => setTodo(data.getTodo),
+  });
+  console.log({ data });
+  console.log(data?.getTodo); //reason 22
   //
   const inputAreaRef = useRef();
   useEffect(() => {
@@ -24,21 +40,37 @@ const AddTodo = () => {
       document.removeEventListener('mousedown', checkIfClickedOutside);
     };
   }, []);
-  //
-  const [todo, setTodo] = useState({
-    title: '',
-    details: '',
-    date: '',
-  });
+
   //
   const [addTodo] = useMutation(ADD_TODO);
   //
   const onSubmit = (e) => {
     e.preventDefault();
-    addTodo({
-      variables: { title: todo.title, details: todo.details, date: todo.date },
-      refetchQueries: [{ query: GET_TODOS }],
-    });
+    if (todo.title === '') {
+      alert('Please enter a title');
+      return;
+    }
+    //
+    if (selectedId === 0) {
+      addTodo({
+        variables: {
+          title: todo.title,
+          details: todo.details,
+          date: todo.date,
+        },
+        refetchQueries: [{ query: GET_TODOS }],
+      });
+    } else {
+      updateTodo({
+        variables: {
+          id: selectedId,
+          title: todo.title,
+          details: todo.details,
+          date: todo.date,
+        },
+        refetchQueries: [{ query: GET_TODOS }],
+      });
+    }
   };
   //
   return (
